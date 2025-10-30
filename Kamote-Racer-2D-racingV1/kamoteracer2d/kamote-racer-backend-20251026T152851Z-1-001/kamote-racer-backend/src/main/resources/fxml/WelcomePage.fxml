@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+
+<StackPane xmlns="http://javafx.com/javafx" 
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="com.kamoteracer.controller.WelcomePageController"
+           fx:id="rootPane">
+    <!-- Background -->
+    <ImageView fitWidth="340" fitHeight="280" preserveRatio="false">
+        <image>
+            <Image url="@/images/game_background.png"/>
+        </image>
+    </ImageView>
+    <!-- Foreground Content -->
+    <VBox alignment="TOP_CENTER" spacing="16">
+        <!-- Title -->
+        <ImageView fitWidth="250" preserveRatio="true">
+            <image>
+                <Image url="@/images/title.png"/>
+            </image>
+        </ImageView>
+        <!-- Leaderboard Button -->
+        <ImageView fitWidth="220" preserveRatio="true"
+                   fx:id="leaderboardButton" style="-fx-cursor: hand;"/>
+        <!-- "Press Enter" Card -->
+        <ImageView fitWidth="220" preserveRatio="true">
+            <image>
+                <Image url="@/images/pressenter_card.png"/>
+            </image>
+        </ImageView>
+    </VBox>
+</StackPane>
