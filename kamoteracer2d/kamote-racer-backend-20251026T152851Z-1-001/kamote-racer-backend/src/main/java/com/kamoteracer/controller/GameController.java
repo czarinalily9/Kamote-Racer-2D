@@ -11,6 +11,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.geometry.Bounds;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.layout.StackPane;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -184,7 +186,18 @@ public class GameController implements Initializable {
     private void onGameOver() {
         gameLoop.stop();
         System.out.println("Game Over. Score: " + (int) score + ", Obstacles passed: " + obstaclesPassed);
-        // TODO: navigate to a Game Over or Leaderboard screen
+        showInputInitialsDialog();
+    }
+
+    private void showInputInitialsDialog() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/InputInitials.fxml"));
+            StackPane overlay = loader.load();
+            uiLayer.getChildren().add(overlay);
+            overlay.requestFocus();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void onKeyPressed(KeyEvent e) {
