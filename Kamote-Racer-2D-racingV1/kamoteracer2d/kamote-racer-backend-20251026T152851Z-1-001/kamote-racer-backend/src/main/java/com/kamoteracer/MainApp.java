@@ -22,7 +22,7 @@ public class MainApp extends Application {
     public void start(Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
         primaryStage.setTitle("Kamote Racer 2D");
-        showGameScene();
+        showWelcomeScene();
         primaryStage.show();
     }
 
@@ -32,6 +32,11 @@ public class MainApp extends Application {
             Parent root = loader.load();
             Scene scene = new Scene(root, 550, 440);
             primaryStage.setScene(scene);
+            // Ensure controller can listen at the Scene level for ENTER
+            Object controller = loader.getController();
+            if (controller instanceof com.kamoteracer.controller.WelcomeController wc) {
+                wc.bindScene(scene);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
