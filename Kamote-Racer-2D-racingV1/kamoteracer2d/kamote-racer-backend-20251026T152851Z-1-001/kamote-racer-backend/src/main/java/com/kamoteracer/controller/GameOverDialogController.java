@@ -65,7 +65,7 @@ public class GameOverDialogController implements Initializable {
         double baseW = dialogRoot.getPrefWidth();
         double baseH = dialogRoot.getPrefHeight();
         double scale = Math.min((root.getWidth() - margin * 2) / baseW,
-                                (root.getHeight() - margin * 2) / baseH);
+                (root.getHeight() - margin * 2) / baseH);
         // Do not upscale to avoid clipping on small title margins
         if (scale > 1.0) scale = 1.0;
         if (scale <= 0 || Double.isNaN(scale) || Double.isInfinite(scale)) return;
@@ -89,25 +89,27 @@ public class GameOverDialogController implements Initializable {
         double titleY = centerY - 100;      // Title above center
         double bannerY = centerY - 6;       // Gold banner just above center
         double buttonsY = centerY + 90;     // Buttons below center
+        // Horizontal nudge to the right to counter left-biased art margins
+        double offsetX = 8.0;
 
         // Horizontal centering for key elements
         if (titleImage != null) {
-            titleImage.setLayoutX((w - titleImage.getFitWidth()) / 2.0);
+            titleImage.setLayoutX((w - titleImage.getFitWidth()) / 2.0 + offsetX);
             titleImage.setLayoutY(titleY);
         }
         if (highscoreImage != null) {
-            highscoreImage.setLayoutX((w - highscoreImage.getFitWidth()) / 2.0);
+            highscoreImage.setLayoutX((w - highscoreImage.getFitWidth()) / 2.0 + offsetX);
             highscoreImage.setLayoutY(bannerY);
         }
         if (scoreLabel != null) {
-            scoreLabel.setLayoutX(w / 2.0 - 12);
+            scoreLabel.setLayoutX(w / 2.0 - 12 + offsetX);
             scoreLabel.setLayoutY(bannerY + 4);
         }
         if (carImage != null) {
             // Slightly smaller car width and responsive to dialog width
             double targetWidth = Math.min(380.0, Math.max(320.0, w - 140.0));
             carImage.setFitWidth(targetWidth);
-            carImage.setLayoutX((w - carImage.getFitWidth()) / 2.0);
+            carImage.setLayoutX((w - carImage.getFitWidth()) / 2.0 + offsetX);
             double carH = carImage.getBoundsInLocal() != null ? carImage.getBoundsInLocal().getHeight() : 0.0;
             if (carH <= 0) carH = 170.0; // fallback
             // Center the car image vertically at the window center
@@ -117,7 +119,7 @@ public class GameOverDialogController implements Initializable {
             double gap = 40;
             double btnW = tryAgainImage.getFitWidth();
             double totalW = btnW + gap + saveScoreImage.getFitWidth();
-            double startX = (w - totalW) / 2.0;
+            double startX = (w - totalW) / 2.0 + offsetX;
             tryAgainImage.setLayoutX(startX);
             tryAgainImage.setLayoutY(buttonsY);
             saveScoreImage.setLayoutX(startX + btnW + gap);
