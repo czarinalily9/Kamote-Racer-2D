@@ -52,6 +52,9 @@ public class GameOverDialogController implements Initializable {
     public void setScore(int score) {
         if (scoreLabel != null) {
             scoreLabel.setText(Integer.toString(score));
+            scoreLabel.setVisible(true);
+            // Trigger layout update to position score label correctly
+            layoutElements();
         }
     }
 
@@ -102,8 +105,16 @@ public class GameOverDialogController implements Initializable {
             highscoreImage.setLayoutY(bannerY);
         }
         if (scoreLabel != null) {
-            scoreLabel.setLayoutX(w / 2.0 - 12 + offsetX);
-            scoreLabel.setLayoutY(bannerY + 4);
+            // Position score label to the right of "HIGHSCORE" text on the banner
+            // Estimate where "HIGHSCORE" text ends (approximately 65% of banner width)
+            double bannerX = highscoreImage != null ? highscoreImage.getLayoutX() : (w - 260) / 2.0 + offsetX;
+            double bannerW = highscoreImage != null ? highscoreImage.getFitWidth() : 260.0;
+            double highscoreTextEndX = bannerX + (bannerW * 0.65); // "HIGHSCORE" text ends around 65% of banner
+            double scoreLabelX = highscoreTextEndX + 12; // Small gap after "HIGHSCORE" text
+            
+            scoreLabel.setVisible(true);
+            scoreLabel.setLayoutX(scoreLabelX);
+            scoreLabel.setLayoutY(bannerY + 4); // Vertically centered on banner
         }
         if (carImage != null) {
             // Slightly smaller car width and responsive to dialog width
