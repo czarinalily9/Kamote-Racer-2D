@@ -1,5 +1,7 @@
 package com.kamoteracer.controller;
 
+import com.kamoteracer.MainApp;
+import javafx.application.Platform;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -10,7 +12,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.geometry.Bounds;
+ 
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -20,12 +24,18 @@ import java.util.Random;
 import java.util.ResourceBundle;
 
 public class GameController implements Initializable {
+    @FXML private StackPane root;
     @FXML private Pane gameLayer;
     @FXML private Pane uiLayer;
     @FXML private Pane backgroundLayer;
     @FXML private ImageView bg1;
     @FXML private ImageView bg2;
     @FXML private Label scoreLabel;
+    @FXML private Pane gameOverOverlay;
+    @FXML private Pane gameOverContent;
+    @FXML private Label gameOverScoreLabel;
+    @FXML private ImageView tryAgainImage;
+    @FXML private ImageView saveScoreImage;
 
     private final double sceneWidth = 520;
     private final double sceneHeight = 440;
@@ -62,6 +72,27 @@ public class GameController implements Initializable {
         gameLayer.requestFocus();
         gameLayer.addEventHandler(KeyEvent.KEY_PRESSED, this::onKeyPressed);
         updateScoreLabel();
+
+        if (tryAgainImage != null) {
+            tryAgainImage.setOnMouseClicked(e -> Platform.runLater(() -> MainApp.getInstance().showGameScene()));
+        }
+        if (saveScoreImage != null) {
+            saveScoreImage.setOnMouseClicked(e -> Platform.runLater(() -> MainApp.getInstance().showWelcomeScene()));
+        }
+
+        // Scale and center the game-over content to fit the current window size
+        if (root != null && gameOverContent != null) {
+            Runnable applyScale = this::scaleGameOverToWindow;
+            root.widthProperty().addListener((o, a, b) -> applyScale.run());
+            root.heightProperty().addListener((o, a, b) -> applyScale.run());
+            applyScale.run();
+        }
+
+        // Make overlay always cover the window
+        if (root != null && gameOverOverlay != null) {
+            gameOverOverlay.prefWidthProperty().bind(root.widthProperty());
+            gameOverOverlay.prefHeightProperty().bind(root.heightProperty());
+        }
     }
 
     private void setupPlayer() {
@@ -147,17 +178,30 @@ public class GameController implements Initializable {
 
     private void checkCollisions() {
         for (ImageView obs : obstacles) {
-            if (shrinkedIntersects(player, obs, 0.75)) {
+            // Use a centered hitbox for the player (middle of the car),
+            // and a slightly shrunken obstacle hitbox
+            Bounds playerCenter = getCenteredBounds(player, 0.30, 0.40);
+            Bounds obstacleBox = getShrinkedBounds(obs, 0.85);
+            if (playerCenter.intersects(obstacleBox)) {
                 onGameOver();
                 return;
             }
         }
     }
 
-    private boolean shrinkedIntersects(ImageView a, ImageView b, double shrink) {
-        Bounds ba = getShrinkedBounds(a, shrink);
-        Bounds bb = getShrinkedBounds(b, shrink);
+    private boolean intersectsWithShrink(ImageView a, double shrinkA, ImageView b, double shrinkB) {
+        Bounds ba = getShrinkedBounds(a, shrinkA);
+        Bounds bb = getShrinkedBounds(b, shrinkB);
         return ba.intersects(bb);
+    }
+
+    private Bounds getCenteredBounds(ImageView node, double widthFraction, double heightFraction) {
+        Bounds b = node.getBoundsInParent();
+        double w = b.getWidth() * widthFraction;
+        double h = b.getHeight() * heightFraction;
+        double x = b.getMinX() + (b.getWidth() - w) / 2.0;
+        double y = b.getMinY() + (b.getHeight() - h) / 2.0;
+        return new javafx.geometry.BoundingBox(x, y, w, h);
     }
 
     private Bounds getShrinkedBounds(ImageView node, double shrink) {
@@ -184,7 +228,27 @@ public class GameController implements Initializable {
     private void onGameOver() {
         gameLoop.stop();
         System.out.println("Game Over. Score: " + (int) score + ", Obstacles passed: " + obstaclesPassed);
-        // TODO: navigate to a Game Over or Leaderboard screen
+        int finalScore = (int) Math.floor(score);
+        if (gameOverScoreLabel != null) {
+            gameOverScoreLabel.setText(String.valueOf(finalScore));
+        }
+        // Prefer dialog popup
+        Platform.runLater(() -> MainApp.getInstance().showGameOverDialog(finalScore));
+    }
+
+    private void scaleGameOverToWindow() {
+        double margin = 24.0; // keep some breathing room
+        double contentBaseW = gameOverContent.getPrefWidth();  // 420
+        double contentBaseH = gameOverContent.getPrefHeight(); // 340
+        double scale = Math.min((root.getWidth() - margin * 2) / contentBaseW,
+                                (root.getHeight() - margin * 2) / contentBaseH);
+        if (scale <= 0 || Double.isNaN(scale) || Double.isInfinite(scale)) return;
+        gameOverContent.setScaleX(scale);
+        gameOverContent.setScaleY(scale);
+        double contentW = contentBaseW * scale;
+        double contentH = contentBaseH * scale;
+        gameOverContent.setLayoutX((root.getWidth() - contentW) / 2.0);
+        gameOverContent.setLayoutY((root.getHeight() - contentH) / 2.0);
     }
 
     private void onKeyPressed(KeyEvent e) {
