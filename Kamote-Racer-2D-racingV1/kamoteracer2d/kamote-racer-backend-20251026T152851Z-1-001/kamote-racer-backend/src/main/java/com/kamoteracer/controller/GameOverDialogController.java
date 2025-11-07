@@ -32,28 +32,46 @@ public class GameOverDialogController implements Initializable {
         }
         if (saveScoreImage != null) {
             saveScoreImage.setOnMouseClicked(e -> {
-                // TODO: persist score if needed
                 closeStage();
                 MainApp.getInstance().showWelcomeScene();
             });
         }
 
-        // Scale dialogRoot to fit the dialog window while preserving layout
+        // Crisp image rendering
+        if (titleImage != null) { titleImage.setSmooth(false); titleImage.setCache(false); }
+        if (carImage != null) { carImage.setSmooth(false); carImage.setCache(false); }
+        if (highscoreImage != null) { highscoreImage.setSmooth(false); highscoreImage.setCache(false); }
+        if (tryAgainImage != null) { tryAgainImage.setSmooth(false); tryAgainImage.setCache(false); }
+        if (saveScoreImage != null) { saveScoreImage.setSmooth(false); saveScoreImage.setCache(false); }
+
+        // Ensure overlays draw on top
+        if (titleImage != null) titleImage.toFront();
+        if (highscoreImage != null) highscoreImage.toFront();
+        if (scoreLabel != null) scoreLabel.toFront();
+        if (tryAgainImage != null) tryAgainImage.toFront();
+        if (saveScoreImage != null) saveScoreImage.toFront();
+
+        // Listeners for resizing
         if (root != null && dialogRoot != null) {
-            Runnable scale = () -> { scaleToWindow(); layoutElements(); };
+            Runnable scale = () -> {
+                scaleToWindow();
+                layoutElements();
+            };
             root.widthProperty().addListener((o, a, b) -> scale.run());
             root.heightProperty().addListener((o, a, b) -> scale.run());
             scale.run();
         }
-        dialogRoot.widthProperty().addListener((o,a,b) -> layoutElements());
-        dialogRoot.heightProperty().addListener((o,a,b) -> layoutElements());
+        // Re-layout if dialog content size changes
+        if (dialogRoot != null) {
+            dialogRoot.widthProperty().addListener((o, a, b) -> layoutElements());
+            dialogRoot.heightProperty().addListener((o, a, b) -> layoutElements());
+        }
     }
 
     public void setScore(int score) {
         if (scoreLabel != null) {
             scoreLabel.setText(Integer.toString(score));
             scoreLabel.setVisible(true);
-            // Trigger layout update to position score label correctly
             layoutElements();
         }
     }
@@ -63,23 +81,35 @@ public class GameOverDialogController implements Initializable {
         stage.close();
     }
 
+    // 🔧 UPDATED (reverted): scales everything slightly larger and fits the window
     private void scaleToWindow() {
-        double margin = 12.0;
-        double baseW = dialogRoot.getPrefWidth();
-        double baseH = dialogRoot.getPrefHeight();
-        double scale = Math.min((root.getWidth() - margin * 2) / baseW,
-                (root.getHeight() - margin * 2) / baseH);
-        // Do not upscale to avoid clipping on small title margins
-        if (scale > 1.0) scale = 1.0;
-        if (scale <= 0 || Double.isNaN(scale) || Double.isInfinite(scale)) return;
+        if (root == null || dialogRoot == null) return;
+
+        double rootW = root.getWidth();
+        double rootH = root.getHeight();
+
+        if (rootW <= 0 || rootH <= 0) return;
+
+        // Your FXML's base layout size (design reference)
+        double baseW = 800;
+        double baseH = 600;
+
+        // Compute scale ratio to fit window but larger for readability (1.3x)
+        double scale = Math.min(rootW / baseW, rootH / baseH) * 1.3;
+        if (scale > 1.7) scale = 1.7;
+
+        // Apply scaling to entire dialogRoot (resizes all elements)
         dialogRoot.setScaleX(scale);
         dialogRoot.setScaleY(scale);
 
-        // Center scaled dialogRoot inside the window
+        // Center scaled layout
         double contentW = baseW * scale;
         double contentH = baseH * scale;
-        dialogRoot.setLayoutX((root.getWidth() - contentW) / 2.0);
-        dialogRoot.setLayoutY((root.getHeight() - contentH) / 2.0);
+        dialogRoot.setLayoutX((rootW - contentW) / 2.0);
+        dialogRoot.setLayoutY((rootH - contentH) / 2.0);
+
+        // Make sure background adjusts
+        dialogRoot.setPrefSize(rootW, rootH);
     }
 
     private void layoutElements() {
@@ -87,56 +117,59 @@ public class GameOverDialogController implements Initializable {
         double h = dialogRoot.getPrefHeight();
         if (w <= 0 || h <= 0) return;
 
-        // Vertically center the whole group using offsets relative to center
-        double centerY = h / 2.0;
-        double titleY = centerY - 100;      // Title above center
-        double bannerY = centerY - 6;       // Gold banner just above center
-        double buttonsY = centerY + 90;     // Buttons below center
-        // Horizontal nudge to the right to counter left-biased art margins
-        double offsetX = 24.0;
+        final double topMargin = 16.0;
+        final double gapY = 10.0;
 
-        // Horizontal centering for key elements
+        // 1) Title centered horizontally
         if (titleImage != null) {
-            titleImage.setLayoutX((w - titleImage.getFitWidth()) / 2.0 + offsetX);
-            titleImage.setLayoutY(titleY);
+            double titleW = titleImage.getFitWidth() > 0 ? titleImage.getFitWidth() : 260;
+            titleImage.setLayoutX((w - titleW) / 2.0);
+            titleImage.setLayoutY(topMargin);
         }
-        if (highscoreImage != null) {
-            highscoreImage.setLayoutX((w - highscoreImage.getFitWidth()) / 2.0 + offsetX);
+
+        // 2) Highscore banner below title
+        if (highscoreImage != null && titleImage != null) {
+            double titleH = titleImage.getBoundsInLocal() != null
+                    ? titleImage.getBoundsInLocal().getHeight() : 64.0;
+            double bannerW = highscoreImage.getFitWidth() > 0 ? highscoreImage.getFitWidth() : 260;
+            double bannerY = topMargin + titleH + gapY;
+            highscoreImage.setLayoutX((w - bannerW) / 2.0);
             highscoreImage.setLayoutY(bannerY);
         }
-        if (scoreLabel != null) {
-            // Position score label to the right of "HIGHSCORE" text on the banner
-            // Estimate where "HIGHSCORE" text ends (approximately 65% of banner width)
-            double bannerX = highscoreImage != null ? highscoreImage.getLayoutX() : (w - 260) / 2.0 + offsetX;
-            double bannerW = highscoreImage != null ? highscoreImage.getFitWidth() : 260.0;
-            double highscoreTextEndX = bannerX + (bannerW * 0.65); // "HIGHSCORE" text ends around 65% of banner
-            double scoreLabelX = highscoreTextEndX + 12; // Small gap after "HIGHSCORE" text
-            
-            scoreLabel.setVisible(true);
-            scoreLabel.setLayoutX(scoreLabelX);
-            scoreLabel.setLayoutY(bannerY + 4); // Vertically centered on banner
-        }
+
+        // 3) Center the car in the middle of the window
         if (carImage != null) {
-            // Slightly smaller car width and responsive to dialog width
-            double targetWidth = Math.min(380.0, Math.max(320.0, w - 140.0));
-            carImage.setFitWidth(targetWidth);
-            carImage.setLayoutX((w - carImage.getFitWidth()) / 2.0 + offsetX);
-            double carH = carImage.getBoundsInLocal() != null ? carImage.getBoundsInLocal().getHeight() : 0.0;
-            if (carH <= 0) carH = 170.0; // fallback
-            // Center the car image vertically at the window center
-            carImage.setLayoutY(centerY - carH / 2.0 + 10); // slight nudge down
+            double carTargetW = Math.min(w * 0.8, 560.0);
+            carImage.setFitWidth(carTargetW);
+            double carH = carImage.getBoundsInLocal() != null
+                    ? carImage.getBoundsInLocal().getHeight() : 200.0;
+
+            carImage.setLayoutX((w - carTargetW) / 2.0);
+            carImage.setLayoutY((h - carH) / 2.0);
         }
+
+        // 4) Hide score label if unused
+        if (scoreLabel != null) {
+            scoreLabel.setVisible(false);
+        }
+
+        // 5) Buttons centered horizontally below the car
         if (tryAgainImage != null && saveScoreImage != null) {
-            double gap = 40;
-            double btnW = tryAgainImage.getFitWidth();
-            double totalW = btnW + gap + saveScoreImage.getFitWidth();
-            double startX = (w - totalW) / 2.0 + offsetX;
+            double btnH = tryAgainImage.getBoundsInLocal() != null ? tryAgainImage.getBoundsInLocal().getHeight() : 36.0;
+            double gapButtons = 40.0;
+            double btnLW = tryAgainImage.getFitWidth();
+            double btnRW = saveScoreImage.getFitWidth();
+            double totalW = btnLW + gapButtons + btnRW;
+
+            double btnY = (h / 2.0) + 160.0; // slightly below the centered car
+
+            double startX = (w - totalW) / 2.0;
             tryAgainImage.setLayoutX(startX);
-            tryAgainImage.setLayoutY(buttonsY);
-            saveScoreImage.setLayoutX(startX + btnW + gap);
-            saveScoreImage.setLayoutY(buttonsY);
+            tryAgainImage.setLayoutY(btnY);
+            saveScoreImage.setLayoutX(startX + btnLW + gapButtons);
+            saveScoreImage.setLayoutY(btnY);
         }
+
+        // (score label suppressed in this layout)
     }
 }
-
-
