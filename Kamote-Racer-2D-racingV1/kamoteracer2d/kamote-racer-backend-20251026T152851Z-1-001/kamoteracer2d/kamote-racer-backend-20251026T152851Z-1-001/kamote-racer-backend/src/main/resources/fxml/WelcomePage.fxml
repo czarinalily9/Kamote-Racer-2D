@@ -7,29 +7,29 @@
 <?import javafx.scene.layout.*?>
 
 <StackPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-           fx:controller="com.kamoteracer.controller.WelcomeController" fx:id="root" prefWidth="825" prefHeight="660">
+           fx:controller="com.kamoteracer.controller.WelcomeController" fx:id="root" prefWidth="550" prefHeight="440">
     <children>
         <!-- bg road -->
-        <ImageView fitWidth="825" fitHeight="660" preserveRatio="false">
+        <ImageView fitWidth="550" fitHeight="440" preserveRatio="false">
             <image>
                 <Image url="@/images/game_background.png"/>
             </image>
         </ImageView>
 
         <!-- foreground UI elements centered vertically -->
-        <VBox alignment="CENTER" spacing="24" fillWidth="false">
+        <VBox alignment="CENTER" spacing="16" fillWidth="false">
             <children>
-                <ImageView fx:id="titleImage" fitWidth="660" preserveRatio="true">
+                <ImageView fx:id="titleImage" fitWidth="440" preserveRatio="true">
                     <image>
                         <Image url="@/images/title.png"/>
                     </image>
                 </ImageView>
-                <ImageView fx:id="leaderboardCard" fitWidth="390" preserveRatio="true">
+                <ImageView fx:id="leaderboardCard" fitWidth="260" preserveRatio="true">
                     <image>
                         <Image url="@/images/leaderboard_card.png"/>
                     </image>
                 </ImageView>
-                <ImageView fx:id="pressEnterCard" fitWidth="540" preserveRatio="true">
+                <ImageView fx:id="pressEnterCard" fitWidth="360" preserveRatio="true">
                     <image>
                         <Image url="@/images/pressenter_card.png"/>
                     </image>
@@ -39,7 +39,7 @@
         <StackPane fx:id="leaderboardOverlay" visible="false" managed="false" mouseTransparent="true">
             <children>
                 <StackPane fx:id="overlayScrim" style="-fx-background-color: rgba(0, 0, 0, 0.6);" />
-                <StackPane fx:id="leaderboardContainer" pickOnBounds="false" alignment="CENTER" maxWidth="720" maxHeight="540">
+                <StackPane fx:id="leaderboardContainer" pickOnBounds="false" alignment="CENTER" maxWidth="480" maxHeight="360">
                     <children>
                         <fx:include fx:id="leaderboardDialogRoot" source="LeaderboardDialog.fxml" StackPane.alignment="CENTER" />
                     </children>
@@ -48,5 +48,3 @@
         </StackPane>
     </children>
 </StackPane>
-
-

@@ -7,9 +7,9 @@
 <?import javafx.scene.layout.*?>
 
 <StackPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-           fx:controller="com.kamoteracer.controller.GameOverDialogController" fx:id="root" prefWidth="550" prefHeight="440">
+           fx:controller="com.kamoteracer.controller.GameOverDialogController" fx:id="root" prefWidth="825" prefHeight="660">
     <children>
-        <Pane fx:id="dialogRoot" style="-fx-background-color: #d9d9d9; -fx-background-radius: 8;" prefWidth="500" prefHeight="360">
+        <Pane fx:id="dialogRoot" style="-fx-background-color: #d9d9d9; -fx-background-radius: 8;" prefWidth="750" prefHeight="540">
             <children>
                 <ImageView fx:id="titleImage" layoutX="60" layoutY="10" fitWidth="380" preserveRatio="true">
                     <image>

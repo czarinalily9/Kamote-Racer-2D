@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 
 <StackPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-           fx:controller="com.kamoteracer.controller.GameOverController" prefWidth="550" prefHeight="440">
+           fx:controller="com.kamoteracer.controller.GameOverController" prefWidth="825" prefHeight="660">
     <children>
         <!-- Simple white background to mimic the attached image -->
         <Region style="-fx-background-color: white;"/>
