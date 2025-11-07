@@ -93,7 +93,7 @@ public class GameOverDialogController implements Initializable {
         double bannerY = centerY - 6;       // Gold banner just above center
         double buttonsY = centerY + 90;     // Buttons below center
         // Horizontal nudge to the right to counter left-biased art margins
-        double offsetX = 8.0;
+        double offsetX = 24.0;
 
         // Horizontal centering for key elements
         if (titleImage != null) {
