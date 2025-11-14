@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+
+<StackPane xmlns="http://javafx.com/javafx" 
+           xmlns:fx="http://javafx.com/fxml"
+           fx:id="rootPane"
+           prefWidth="550" prefHeight="440">
+    <!-- Background -->
+    <ImageView fitWidth="550" fitHeight="440" preserveRatio="false">
+        <image>
+            <Image url="@/images/game_background.png"/>
+        </image>
+    </ImageView>
+    <!-- Foreground Content -->
+    <VBox alignment="CENTER" spacing="16" StackPane.alignment="CENTER">
+        <!-- Title -->
+        <ImageView fitWidth="250" preserveRatio="true">
+            <image>
+                <Image url="@/images/title.png"/>
+            </image>
+        </ImageView>
+        <!-- Leaderboard Button -->
+        <ImageView fitWidth="220" preserveRatio="true"
+                   fx:id="leaderboardButton" style="-fx-cursor: hand;">
+            <image>
+                <Image url="@/images/leaderboard_card.png"/>
+            </image>
+        </ImageView>
+        <!-- "Press Enter" Card -->
+        <ImageView fitWidth="220" preserveRatio="true">
+            <image>
+                <Image url="@/images/pressenter_card.png"/>
+            </image>
+        </ImageView>
+    </VBox>
+</StackPane>

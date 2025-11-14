@@ -1,8 +1,0 @@
-### Submit a score
-POST http://localhost:8080/api/leaderboard/submit
-Content-Type: application/json
-
-{"initials":"JAY","score":120}
-
-### Get top 10 scores
-GET http://localhost:8080/api/leaderboard/top10
