@@ -17,7 +17,7 @@
     <Rectangle width="550" height="440" fill="#00000066" />
 
     <!-- Dialog container (tighter) -->
-    <StackPane fx:id="dialog" maxWidth="340" maxHeight="220" prefWidth="340" prefHeight="220">
+    <StackPane fx:id="dialog" maxWidth="340" maxHeight="220" prefWidth="340" prefHeight="220" style="-fx-border-color: #213040; -fx-border-width: 2; -fx-border-radius: 8; -fx-background-radius: 8;">
         <children>
             <!-- white card background -->
             <ImageView fitWidth="340" preserveRatio="true">
