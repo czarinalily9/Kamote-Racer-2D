@@ -14,6 +14,7 @@ import javafx.scene.layout.Pane;
 import javafx.geometry.Bounds;
 
 import java.net.URL;
+import java.util.Objects;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -54,8 +55,8 @@ public class GameController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        carImage = new Image(getClass().getResourceAsStream("/images/car.png"));
-        obstacleImage = new Image(getClass().getResourceAsStream("/images/obstacle.png"));
+        carImage = new Image(Objects.requireNonNull(getClass().getResource("/images/car.png")).toExternalForm());
+        obstacleImage = new Image(Objects.requireNonNull(getClass().getResource("/images/obstacle.png")).toExternalForm());
         setupPlayer();
         startGameLoop();
         // Focus to receive key events
@@ -147,31 +148,35 @@ public class GameController implements Initializable {
         }
     }
 
-    private void checkCollisions() {
-        for (ImageView obs : obstacles) {
-            if (shrinkedIntersects(player, obs, 0.75)) {
-                onGameOver();
-                return;
-            }
-        }
-    }
+    /** 
+     * Checks if the player's (smaller) internal hitbox intersects 
+     * with any of the (full-sized) obstacle hitboxes. 
+     */ 
+    private void checkCollisions() { 
+        Bounds playerHitbox = getPlayerInternalHitbox(); 
+        for (ImageView obs : obstacles) { 
+            Bounds obstacleHitbox = obs.getBoundsInParent(); 
+            if (playerHitbox.intersects(obstacleHitbox)) { 
+                onGameOver(); 
+                return; 
+            } 
+        } 
+    } 
 
-    private boolean shrinkedIntersects(ImageView a, ImageView b, double shrink) {
-        Bounds ba = getShrinkedBounds(a, shrink);
-        Bounds bb = getShrinkedBounds(b, shrink);
-        return ba.intersects(bb);
-    }
-
-    private Bounds getShrinkedBounds(ImageView node, double shrink) {
-        Bounds b = node.getBoundsInParent();
-        double dw = b.getWidth() * (1.0 - shrink);
-        double dh = b.getHeight() * (1.0 - shrink);
-        return new javafx.geometry.BoundingBox(
-            b.getMinX() + dw / 2,
-            b.getMinY() + dh / 2,
-            b.getWidth() * shrink,
-            b.getHeight() * shrink
-        );
+    /** 
+     * Calculates and returns a new, smaller bounding box that is 
+     * centered inside the player's main image. 
+     * This is the "middle part" of the car you wanted. 
+     */ 
+    private Bounds getPlayerInternalHitbox() { 
+        double horizontalPadding = 40; 
+        double verticalPadding = 50; 
+        Bounds playerBounds = player.getBoundsInParent(); 
+        double newMinX = playerBounds.getMinX() + horizontalPadding; 
+        double newMinY = playerBounds.getMinY() + verticalPadding; 
+        double newWidth = playerBounds.getWidth() - (horizontalPadding * 2); 
+        double newHeight = playerBounds.getHeight() - (verticalPadding * 2); 
+        return new javafx.geometry.BoundingBox(newMinX, newMinY, newWidth, newHeight); 
     }
 
     private void incrementScore(double deltaSec) {
