@@ -8,7 +8,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 
-<StackPane xmlns="http://javafx.com/javafx" 
+<StackPane xmlns="http://javafx.com/javafx"
            xmlns:fx="http://javafx.com/fxml"
            fx:id="rootPane"
            prefWidth="550" prefHeight="440">
@@ -19,25 +19,77 @@
         </image>
     </ImageView>
     <!-- Foreground Content -->
-    <VBox alignment="CENTER" spacing="16" StackPane.alignment="CENTER">
+    <Pane prefWidth="550" prefHeight="440">
         <!-- Title -->
-        <ImageView fitWidth="250" preserveRatio="true">
+        <ImageView fitWidth="280" preserveRatio="true" layoutX="135" layoutY="20">
             <image>
                 <Image url="@/images/title.png"/>
             </image>
         </ImageView>
-        <!-- Leaderboard Button -->
-        <ImageView fitWidth="220" preserveRatio="true"
-                   fx:id="leaderboardButton" style="-fx-cursor: hand;">
+
+        <!-- Leaderboard heading (top-right) -->
+        <ImageView fx:id="leaderboardButton" fitWidth="150" preserveRatio="true" style="-fx-cursor: hand;"
+                   layoutX="390" layoutY="24">
             <image>
                 <Image url="@/images/leaderboard_card.png"/>
             </image>
         </ImageView>
-        <!-- "Press Enter" Card -->
-        <ImageView fitWidth="220" preserveRatio="true">
+
+        <!-- Large preview box -->
+        <ImageView fx:id="previewBox" fitWidth="100" fitHeight="100" preserveRatio="false" layoutX="226" layoutY="120" pickOnBounds="true">
+            <image>
+                <Image url="@/images/CarWhiteBoxBackground.png"/>
+            </image>
+        </ImageView>
+        <!-- Three CarWhiteBoxBackgrounds only -->
+        <Pane>
+            <children>
+                <ImageView fx:id="bgBox1" fitWidth="64" fitHeight="64" preserveRatio="false" layoutX="163" layoutY="240">
+                    <image>
+                        <Image url="@/images/CarWhiteBoxBackground.png"/>
+                    </image>
+                </ImageView>
+                <ImageView fx:id="bgBox2" fitWidth="64" fitHeight="64" preserveRatio="false" layoutX="243" layoutY="240">
+                    <image>
+                        <Image url="@/images/CarWhiteBoxBackground.png"/>
+                    </image>
+                </ImageView>
+                <ImageView fx:id="bgBox3" fitWidth="64" fitHeight="64" preserveRatio="false" layoutX="323" layoutY="240">
+                    <image>
+                        <Image url="@/images/CarWhiteBoxBackground.png"/>
+                    </image>
+                </ImageView>
+            </children>
+        </Pane>
+        <!-- Selected car preview (drawn on top of white box) -->
+        <ImageView fx:id="previewCar" fitWidth="170" preserveRatio="true" layoutX="190" layoutY="95" mouseTransparent="true" />
+
+        <!-- Car choices -->
+        <HBox alignment="CENTER" spacing="-40" layoutX="135" layoutY="220">
+            <children>
+                <ImageView fx:id="car1" fitWidth="120" preserveRatio="true">
+                    <image>
+                        <Image url="@/images/car.png"/>
+                    </image>
+                </ImageView>
+                <ImageView fx:id="car2" fitWidth="120" preserveRatio="true">
+                    <image>
+                        <Image url="@/images/car2.png"/>
+                    </image>
+                </ImageView>
+                <ImageView fx:id="car3" fitWidth="120" preserveRatio="true">
+                    <image>
+                        <Image url="@/images/car3.png"/>
+                    </image>
+                </ImageView>
+            </children>
+        </HBox>
+
+        <!-- Hint card -->
+        <ImageView fitWidth="300" preserveRatio="true" layoutX="125" layoutY="320">
             <image>
                 <Image url="@/images/pressenter_card.png"/>
             </image>
         </ImageView>
-    </VBox>
+    </Pane>
 </StackPane>

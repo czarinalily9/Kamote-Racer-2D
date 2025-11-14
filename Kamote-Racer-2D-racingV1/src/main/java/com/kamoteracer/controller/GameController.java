@@ -55,11 +55,13 @@ public class GameController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        carImage = new Image(Objects.requireNonNull(getClass().getResource("/images/car.png")).toExternalForm());
-        obstacleImage = new Image(Objects.requireNonNull(getClass().getResource("/images/obstacle.png")).toExternalForm());
+        String carPath = com.kamoteracer.MainApp.getInstance() != null
+                ? com.kamoteracer.MainApp.getInstance().getSelectedCarPath()
+                : "/images/car.png";
+        carImage = new Image(getClass().getResourceAsStream(carPath));
+        obstacleImage = new Image(getClass().getResourceAsStream("/images/obstacle.png"));
         setupPlayer();
         startGameLoop();
-        // Focus to receive key events
         gameLayer.setFocusTraversable(true);
         gameLayer.requestFocus();
         gameLayer.addEventHandler(KeyEvent.KEY_PRESSED, this::onKeyPressed);
