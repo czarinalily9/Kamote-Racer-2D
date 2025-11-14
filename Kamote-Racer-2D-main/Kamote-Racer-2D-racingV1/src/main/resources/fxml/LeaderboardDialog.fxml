@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+
+<StackPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+           fx:id="root" fx:controller="com.kamoteracer.controller.LeaderboardDialogController"
+           prefWidth="720" prefHeight="540" maxWidth="720" maxHeight="540"
+           stylesheets="@/styles/leaderboard.css">
+    <children>
+        <Pane prefWidth="720" prefHeight="540">
+            <children>
+                <!-- White Background Layer (centered) -->
+                <ImageView fitWidth="540" fitHeight="450" preserveRatio="false" smooth="false"
+                           layoutX="90" layoutY="45">
+                    <image>
+                        <Image url="@/images/WhiteBackground.png"/>
+                    </image>
+                </ImageView>
+
+                <!-- Yellow Background Layer (separate, independent layer) -->
+                <ImageView fitWidth="450" fitHeight="680" preserveRatio="false" smooth="false"
+                           layoutX="135" layoutY="-50" mouseTransparent="true">
+                    <image>
+                        <Image url="@/images/YellowBackground.png"/>
+                    </image>
+                </ImageView>
+
+                <!-- Content Layer (exit button, leaderboard card, etc.) -->
+                <ImageView fx:id="closeButton" fitWidth="48" preserveRatio="true" smooth="false"
+                           pickOnBounds="true" layoutX="600" layoutY="25">
+                    <image>
+                        <Image url="@/images/ExitButton.png"/>
+                    </image>
+                </ImageView>
+
+                <VBox alignment="TOP_CENTER" spacing="20" layoutX="120" layoutY="30">
+                    <children>
+                        <ImageView fitWidth="360" preserveRatio="true" smooth="false">
+                            <image>
+                                <Image url="@/images/leaderboard_card.png"/>
+                            </image>
+                        </ImageView>
+
+                        <GridPane alignment="CENTER" hgap="36" vgap="12" prefWidth="360">
+                            <padding>
+                                <Insets top="8" right="36" bottom="36" left="36"/>
+                            </padding>
+                            <columnConstraints>
+                                <ColumnConstraints halignment="LEFT" prefWidth="105" minWidth="105"/>
+                                <ColumnConstraints halignment="CENTER" prefWidth="120" minWidth="120"/>
+                                <ColumnConstraints halignment="RIGHT" prefWidth="105" minWidth="105"/>
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints minHeight="54" prefHeight="54"/>
+                                <RowConstraints minHeight="39" prefHeight="39"/>
+                                <RowConstraints minHeight="39" prefHeight="39"/>
+                                <RowConstraints minHeight="39" prefHeight="39"/>
+                                <RowConstraints minHeight="39" prefHeight="39"/>
+                                <RowConstraints minHeight="39" prefHeight="39"/>
+                            </rowConstraints>
+
+                            <ImageView GridPane.columnIndex="0" GridPane.rowIndex="0" fitWidth="108" preserveRatio="true" smooth="false">
+                                <image>
+                                    <Image url="@/images/Leaderboard_Rank_Header.png"/>
+                                </image>
+                            </ImageView>
+                            <ImageView GridPane.columnIndex="1" GridPane.rowIndex="0" fitWidth="108" preserveRatio="true" smooth="false">
+                                <image>
+                                    <Image url="@/images/Leaderboard_Score_Header.png"/>
+                                </image>
+                            </ImageView>
+                            <ImageView GridPane.columnIndex="2" GridPane.rowIndex="0" fitWidth="108" preserveRatio="true" smooth="false">
+                                <image>
+                                    <Image url="@/images/Leaderboard_Name_Header.png"/>
+                                </image>
+                            </ImageView>
+
+                            <Label fx:id="rank1Label" GridPane.rowIndex="1" text="1ST" styleClass="leaderboard-rank"/>
+                            <Label fx:id="rank2Label" GridPane.rowIndex="2" text="2ND" styleClass="leaderboard-rank"/>
+                            <Label fx:id="rank3Label" GridPane.rowIndex="3" text="3RD" styleClass="leaderboard-rank"/>
+                            <Label fx:id="rank4Label" GridPane.rowIndex="4" text="4TH" styleClass="leaderboard-rank"/>
+                            <Label fx:id="rank5Label" GridPane.rowIndex="5" text="5TH" styleClass="leaderboard-rank"/>
+
+                            <Label fx:id="score1Label" GridPane.columnIndex="1" GridPane.rowIndex="1" text="999999" styleClass="leaderboard-score"/>
+                            <Label fx:id="score2Label" GridPane.columnIndex="1" GridPane.rowIndex="2" text="999999" styleClass="leaderboard-score"/>
+                            <Label fx:id="score3Label" GridPane.columnIndex="1" GridPane.rowIndex="3" text="999999" styleClass="leaderboard-score"/>
+                            <Label fx:id="score4Label" GridPane.columnIndex="1" GridPane.rowIndex="4" text="999999" styleClass="leaderboard-score"/>
+                            <Label fx:id="score5Label" GridPane.columnIndex="1" GridPane.rowIndex="5" text="999999" styleClass="leaderboard-score"/>
+
+                            <Label fx:id="name1Label" GridPane.columnIndex="2" GridPane.rowIndex="1" text="RKV" styleClass="leaderboard-name"/>
+                            <Label fx:id="name2Label" GridPane.columnIndex="2" GridPane.rowIndex="2" text="RKV" styleClass="leaderboard-name"/>
+                            <Label fx:id="name3Label" GridPane.columnIndex="2" GridPane.rowIndex="3" text="RKV" styleClass="leaderboard-name"/>
+                            <Label fx:id="name4Label" GridPane.columnIndex="2" GridPane.rowIndex="4" text="RKV" styleClass="leaderboard-name"/>
+                            <Label fx:id="name5Label" GridPane.columnIndex="2" GridPane.rowIndex="5" text="RKV" styleClass="leaderboard-name"/>
+                        </GridPane>
+                    </children>
+                </VBox>
+            </children>
+        </Pane>
+    </children>
+</StackPane>

@@ -1,0 +1,22 @@
+@font-face {
+	font-family: 'Press Start 2P';
+	src: url('PressStart2P-Regular.ttf');
+}
+
+/* General improvements for crisp pixel-art font */
+.root {
+	-fx-font-smoothing-type: gray;
+}
+
+.initial-letter {
+	-fx-font-family: 'Press Start 2P';
+	-fx-font-size: 28px;
+	-fx-text-fill: #e24b2d;
+}
+
+.submit-button {
+	-fx-font-family: 'Press Start 2P';
+	-fx-font-size: 12px;
+	-fx-background-color: transparent;
+	-fx-text-fill: white; /* used only if no graphic provided */
+}
