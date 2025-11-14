@@ -32,9 +32,15 @@ public class InputInitialsController {
         } catch (Exception ignored) {}
 
         updateSelectionUnderline();
-        root.addEventHandler(KeyEvent.KEY_PRESSED, this::onKeyPressed);
+        root.addEventFilter(KeyEvent.KEY_PRESSED, this::onKeyPressed);
         root.setFocusTraversable(true);
-        root.requestFocus();
+        root.sceneProperty().addListener((obs, oldScene, newScene) -> {
+            if (newScene != null) {
+                newScene.addEventFilter(KeyEvent.KEY_PRESSED, this::onKeyPressed);
+                javafx.application.Platform.runLater(() -> root.requestFocus());
+            }
+        });
+        root.setOnMouseClicked(e -> root.requestFocus());
         if (closeButton != null) {
             closeButton.setOnAction(e -> close());
         }
@@ -140,21 +146,28 @@ public class InputInitialsController {
         close();
     }
 
-    public static void show() {
+    public static void show(javafx.stage.Window ownerWindow) {
         try {
             FXMLLoader loader = new FXMLLoader(InputInitialsController.class.getResource("/fxml/InputInitials.fxml"));
             StackPane root = loader.load();
+            InputInitialsController c = loader.getController();
             javafx.stage.Stage stage = new javafx.stage.Stage();
             stage.setTitle("Save High Score");
-            if (com.kamoteracer.MainApp.getInstance() != null && com.kamoteracer.MainApp.getInstance().getPrimaryStage() != null) {
+            if (ownerWindow != null) {
+                stage.initOwner(ownerWindow);
+                stage.initModality(javafx.stage.Modality.WINDOW_MODAL);
+            } else if (com.kamoteracer.MainApp.getInstance() != null && com.kamoteracer.MainApp.getInstance().getPrimaryStage() != null) {
                 javafx.stage.Stage owner = com.kamoteracer.MainApp.getInstance().getPrimaryStage();
                 stage.initOwner(owner);
+                stage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
+            } else {
+                stage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
             }
-            stage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
-            stage.setScene(new javafx.scene.Scene(root, 550, 440));
-            if (com.kamoteracer.MainApp.getInstance() != null && com.kamoteracer.MainApp.getInstance().getPrimaryStage() != null) {
-                javafx.stage.Stage owner = com.kamoteracer.MainApp.getInstance().getPrimaryStage();
-                javafx.scene.Scene scene = stage.getScene();
+            javafx.scene.Scene scene = new javafx.scene.Scene(root, 550, 440);
+            stage.setScene(scene);
+            stage.addEventFilter(javafx.scene.input.KeyEvent.KEY_PRESSED, c::onKeyPressed);
+            scene.addEventFilter(javafx.scene.input.KeyEvent.KEY_PRESSED, c::onKeyPressed);
+            if (stage.getOwner() instanceof javafx.stage.Stage owner) {
                 Runnable center = () -> {
                     double cw = stage.getWidth() > 0 ? stage.getWidth() : scene.getWidth();
                     double ch = stage.getHeight() > 0 ? stage.getHeight() : scene.getHeight();
@@ -171,9 +184,18 @@ public class InputInitialsController {
                 stage.heightProperty().addListener((o,a,b) -> center.run());
                 stage.setOnShown(e -> center.run());
             }
+            stage.setOnShown(e -> root.requestFocus());
             stage.showAndWait();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static void show() {
+        javafx.stage.Window owner = null;
+        if (com.kamoteracer.MainApp.getInstance() != null && com.kamoteracer.MainApp.getInstance().getPrimaryStage() != null) {
+            owner = com.kamoteracer.MainApp.getInstance().getPrimaryStage();
+        }
+        show(owner);
     }
 }

@@ -35,7 +35,7 @@
                                 <Image url="@/images/InputInitials_BlueBackground.png"/>
                             </image>
                         </ImageView>
-                        <Button fx:id="closeButton" text="✕" StackPane.alignment="TOP_RIGHT"
+                        <Button fx:id="closeButton" text="✕" StackPane.alignment="TOP_RIGHT" focusTraversable="false"
                                 prefWidth="28" prefHeight="28" minWidth="28" minHeight="28" maxWidth="28" maxHeight="28"
                                 style="-fx-background-color: transparent; -fx-text-fill: #333; -fx-font-weight: bold;"/>
                     </children>
