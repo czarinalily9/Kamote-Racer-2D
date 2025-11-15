@@ -1,4 +1,7 @@
-# Kamote Racer 2D 🚗 
+# Kamote Racer 2D 🚗
+
+<img width="363" height="308" alt="image" src="https://github.com/user-attachments/assets/b25144d0-9572-4309-9259-361eb0efe370" />
+
 A fast-paced,casual,nostalgic, retro-styled 2D racing game that revives classic arcade fun for the modern era. Dodge sweet potato traffic, rack up score, and see how long you can survive on the endless journey.
 The objective is straightforward: survive as long as possible while avoiding kamote obstacles that appear randomly and increase in speed as the game progresses. Players earn points based on the distance traveled or time survived.    
 
