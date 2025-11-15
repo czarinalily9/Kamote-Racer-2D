@@ -7,6 +7,9 @@ The objective is straightforward: survive as long as possible while avoiding kam
 
 ## How to Play ?
 
+<img width="364" height="304" alt="image" src="https://github.com/user-attachments/assets/e6a69bd7-bc06-40c0-b2ba-9a85a8c4b0ef" />
+
+
    * Players can customize their racer before starting the game.
   
    * Use your mouse or trackpad to drag and drop different color options onto the car.
@@ -24,6 +27,13 @@ The objective is straightforward: survive as long as possible while avoiding kam
 
    * Once you’re happy with your design, click Start to begin the game. 
 
+### Team Developers:
 
-
+   * Sy, Czarina Lily A.
+   * Fullon, Chris
+   * Sebeldia, Kashmir Dane T.
+   * Mascardo, Joaquin
+   * Solosod, Ralph
+   * Laguador, Renzo
+   * Sandu, Sukhjot
 
