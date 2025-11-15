@@ -5,8 +5,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -108,8 +108,8 @@ public class GameOverDialogController implements Initializable {
                     GameOverDialogController.class.getResource("/fxml/GameOverDialog.fxml"));
             StackPane root = loader.load();
             GameOverDialogController controller = loader.getController();
-            controller.setScore(com.kamoteracer.MainApp.getInstance().getLastScore());
-            javafx.stage.Stage stage = new javafx.stage.Stage();
+            controller.setScore(MainApp.getInstance().getLastScore());
+            Stage stage = new Stage();
             stage.setTitle("Game Over");
             stage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
             stage.setScene(new javafx.scene.Scene(root, 825, 660));

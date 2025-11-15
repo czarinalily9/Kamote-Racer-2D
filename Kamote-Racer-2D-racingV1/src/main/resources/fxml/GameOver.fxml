@@ -3,40 +3,82 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 
 <StackPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-           fx:controller="com.kamoteracer.controller.GameOverController" prefWidth="825" prefHeight="660">
+           fx:controller="com.kamoteracer.controller.GameOverController" prefWidth="480" prefHeight="360">
     <children>
-        <!-- Simple white background to mimic the attached image -->
-        <Region style="-fx-background-color: white;"/>
+        <Region style="-fx-background-color: #d9d9d9;"/>
 
-        <VBox alignment="CENTER" spacing="24">
+        <!-- Car image behind content -->
+        <ImageView fitWidth="360" preserveRatio="true" opacity="1.0">
+            <image>
+                <Image url="@/images/Gameover_Car.png"/>
+            </image>
+        </ImageView>
+
+        <VBox alignment="CENTER" spacing="28">
             <children>
-                <Label text="Game Over" fx:id="titleLabel"
-                       style="-fx-font-size: 48px; -fx-font-weight: bold; -fx-text-fill: #e5522a; -fx-effect: dropshadow(gaussian, #213040, 4, 0.4, 2, 2);"/>
+                <!-- Heading image on top -->
+                <ImageView fitWidth="380" preserveRatio="true">
+                    <image>
+                        <Image url="@/images/Gameover_Heading.png"/>
+                    </image>
+                </ImageView>
 
-                <HBox alignment="CENTER" spacing="12">
-                    <children>
-                        <Label text="HIGHSCORE" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #213040;"/>
-                        <Label fx:id="scoreLabel" text="0" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #213040;"/>
-                    </children>
-                </HBox>
+                <!-- Keep original fx:id for controller binding, but don't show this label -->
+                <Label fx:id="titleLabel" visible="false" managed="false"/>
 
-                <HBox alignment="CENTER" spacing="32">
+                <!-- Highscore card with score overlay (score aligned to the right) -->
+                <StackPane prefWidth="340" maxWidth="340">
                     <children>
-                        <Button fx:id="tryAgainButton" text="TRY AGAIN" mnemonicParsing="false"
-                                style="-fx-background-color: #e5522a; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 16 10 16; -fx-font-size: 14px;"/>
-                        <Button fx:id="saveHighscoreButton" text="SAVE HIGHSCORE" mnemonicParsing="false"
-                                style="-fx-background-color: #e5522a; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 16 10 16; -fx-font-size: 14px;"/>
+                        <ImageView fitWidth="340" preserveRatio="true">
+                            <image>
+                                <Image url="@/images/Highscore_Card.png"/>
+                            </image>
+                        </ImageView>
+                        <Label fx:id="scoreLabel" text="0" textAlignment="RIGHT" style="-fx-text-fill: white; -fx-font-family: 'Press Start 2P'; -fx-font-size: 18px; -fx-font-weight: bold;">
+                            <StackPane.alignment>CENTER_RIGHT</StackPane.alignment>
+                            <StackPane.margin>
+                                <Insets top="0" right="36" bottom="0" left="0"/>
+                            </StackPane.margin>
+                        </Label>
                     </children>
-                </HBox>
+                </StackPane>
+
+                <!-- Image-based buttons centered in the window -->
+                <StackPane>
+                    <children>
+                        <HBox alignment="CENTER" spacing="32">
+                            <children>
+                                <Button fx:id="tryAgainButton" mnemonicParsing="false" style="-fx-background-color: transparent;">
+                                    <graphic>
+                                        <ImageView fitWidth="160" preserveRatio="true" pickOnBounds="true">
+                                            <image>
+                                                <Image url="@/images/Tryagain_button.png"/>
+                                            </image>
+                                        </ImageView>
+                                    </graphic>
+                                </Button>
+                                <Button fx:id="saveHighscoreButton" mnemonicParsing="false" style="-fx-background-color: transparent;">
+                                    <graphic>
+                                        <ImageView fitWidth="160" preserveRatio="true" pickOnBounds="true">
+                                            <image>
+                                                <Image url="@/images/Save score_button.png"/>
+                                            </image>
+                                        </ImageView>
+                                    </graphic>
+                                </Button>
+                            </children>
+                        </HBox>
+                    </children>
+                </StackPane>
             </children>
             <padding>
-                <Insets top="24" bottom="24" left="24" right="24"/>
+                <Insets top="12" bottom="12" left="24" right="24"/>
             </padding>
         </VBox>
     </children>
 </StackPane>
-
-

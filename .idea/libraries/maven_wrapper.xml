@@ -3,9 +3,11 @@
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.jar!/" />
       <root url="file://$USER_HOME$/Downloads/openjfx-21.0.9_windows-x64_bin-sdk/javafx-sdk-21.0.9/lib" />
+      <root url="file://$PROJECT_DIR$/../../Setups and Installers/openjfx-21.0.9_windows-x64_bin-sdk/javafx-sdk-21.0.9/lib" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
     <jarDirectory url="file://$USER_HOME$/Downloads/openjfx-21.0.9_windows-x64_bin-sdk/javafx-sdk-21.0.9/lib" recursive="false" />
+    <jarDirectory url="file://$PROJECT_DIR$/../../Setups and Installers/openjfx-21.0.9_windows-x64_bin-sdk/javafx-sdk-21.0.9/lib" recursive="false" />
   </library>
 </component>
